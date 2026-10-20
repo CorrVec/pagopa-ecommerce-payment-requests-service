@@ -64,9 +64,6 @@ jobs:
       with:
         java-version: '21'
         distribution: 'temurin'
-        server-id: github
-        server-username: ${{ github.actor }}
-        server-password: ${{ secrets.GITHUB_TOKEN }}
 
     # Add any setup steps before running the `github/codeql-action/init` action.
     # This includes steps like installing compilers or runtimes (`actions/setup-node`
@@ -95,11 +92,9 @@ jobs:
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
     - name: Run manual build steps
       if: matrix.build-mode == 'manual'
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       shell: bash
       run: |
-        mvn clean install -DskipTests
+        mvn clean compile
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@6f2ac81f5cd81fe351a197ba0b00d91d03cd2aee
